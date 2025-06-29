@@ -1,0 +1,101 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 903B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ubuntu:22.04
+#2 ...
+
+#3 [internal] load metadata for docker.io/library/alpine:3.21.3
+#3 DONE 1.2s
+
+#2 [internal] load metadata for docker.io/library/ubuntu:22.04
+#2 DONE 1.2s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [first 1/7] FROM docker.io/library/ubuntu:22.04@sha256:01a3ee0b5e413cefaaffc6abe68c9c37879ae3cced56a8e088b1649e5b269eee
+#5 DONE 0.0s
+
+#6 [stage-1 1/4] FROM docker.io/library/alpine:3.21.3@sha256:a8560b36e8b8210634f77d9f7f9efd7ffa463e380b75e2e74aff4511df3ef88c
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 14.40kB 0.1s done
+#7 DONE 0.1s
+
+#8 [first 2/7] RUN apt-get update &&   apt-get install -y git cmake build-essential libssl-dev uuid-dev curl pkg-config
+#8 CACHED
+
+#9 [first 3/7] RUN git clone https://github.com/microsoft/vcpkg.git  &&   cd vcpkg &&   ./bootstrap-vcpkg.sh &&   ./vcpkg install drogon
+#9 CACHED
+
+#10 [first 4/7] WORKDIR /app
+#10 CACHED
+
+#11 [first 5/7] COPY . .
+#11 DONE 0.8s
+
+#12 [first 6/7] RUN rm -R build && mkdir build && cd build && cmake .. && make
+#12 0.649 -- The CXX compiler identification is GNU 11.4.0
+#12 0.664 -- Detecting CXX compiler ABI info
+#12 0.780 -- Detecting CXX compiler ABI info - done
+#12 0.803 -- Check for working CXX compiler: /usr/bin/c++ - skipped
+#12 0.804 -- Detecting CXX compile features
+#12 0.806 -- Detecting CXX compile features - done
+#12 0.823 -- Found Jsoncpp: /vcpkg/installed/x64-linux/include  
+#12 0.835 -- jsoncpp version:1.9.6
+#12 0.929 -- Looking for C++ include pthread.h
+#12 1.101 -- Looking for C++ include pthread.h - found
+#12 1.102 -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+#12 1.254 -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+#12 1.257 -- Found Threads: TRUE  
+#12 1.259 -- Found OpenSSL: /vcpkg/installed/x64-linux/lib/libcrypto.a (found version "3.5.0")  
+#12 1.275 -- Found UUID: /vcpkg/installed/x64-linux/lib/libuuid.a
+#12 1.281 -- Found ZLIB: /vcpkg/installed/x64-linux/lib/libz.a (found version "1.3.1") 
+#12 1.285 -- Found Brotli: /vcpkg/installed/x64-linux/lib/libbrotlidec.a  
+#12 1.288 -- Looking for C++ include filesystem
+#12 2.102 -- Looking for C++ include filesystem - found
+#12 2.103 -- Performing Test CXX_FILESYSTEM_NO_LINK_NEEDED
+#12 3.396 -- Performing Test CXX_FILESYSTEM_NO_LINK_NEEDED - Success
+#12 3.404 -- Configuring done
+#12 3.413 -- Generating done
+#12 3.415 -- Build files have been written to: /app/build
+#12 3.486 [ 25%] Building CXX object CMakeFiles/hello-server.dir/main.cpp.o
+#12 9.508 [ 50%] Building CXX object CMakeFiles/hello-server.dir/src/HelloController.cpp.o
+#12 12.96 [ 75%] Building CXX object CMakeFiles/hello-server.dir/src/CityInfoController.cpp.o
+#12 16.42 [100%] Linking CXX executable hello-server
+#12 21.99 [100%] Built target hello-server
+#12 DONE 22.3s
+
+#13 [first 7/7] RUN ls -al /app/build
+#13 0.458 total 47688
+#13 0.458 drwxr-xr-x 1 root root      126 Jun 28 22:25 .
+#13 0.458 drwxr-xr-x 1 root root       10 Jun 28 22:25 ..
+#13 0.458 -rw-r--r-- 1 root root    21326 Jun 28 22:25 CMakeCache.txt
+#13 0.458 drwxr-xr-x 1 root root      302 Jun 28 22:25 CMakeFiles
+#13 0.458 -rw-r--r-- 1 root root     9163 Jun 28 22:25 Makefile
+#13 0.458 -rw-r--r-- 1 root root     2365 Jun 28 22:25 cmake_install.cmake
+#13 0.458 -rwxr-xr-x 1 root root 48788616 Jun 28 22:25 hello-server
+#13 DONE 0.6s
+
+#14 [stage-1 2/4] WORKDIR /app
+#14 CACHED
+
+#15 [stage-1 3/4] COPY --from=first /app/build/hello-server .
+#15 CACHED
+
+#16 [stage-1 4/4] RUN ls -a .
+#16 0.328 .
+#16 0.328 ..
+#16 0.328 hello-server
+#16 DONE 0.5s
+
+#17 exporting to image
+#17 exporting layers
+#17 exporting layers 0.3s done
+#17 writing image sha256:8df97bdbce9fc606a2b90e588dd6745e0f9f5f770f530d6c1e19e1196e6c9fbc done
+#17 DONE 0.3s

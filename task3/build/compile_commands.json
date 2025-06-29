@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/home/z0tedd/Documents/projects/univer_practice/task2/build",
+  "command": "/usr/bin/c++  -isystem /home/z0tedd/.local/share/vcpkg/installed/x64-linux/include -std=gnu++17 -o CMakeFiles/hello-server.dir/main.cpp.o -c /home/z0tedd/Documents/projects/univer_practice/task2/main.cpp",
+  "file": "/home/z0tedd/Documents/projects/univer_practice/task2/main.cpp",
+  "output": "CMakeFiles/hello-server.dir/main.cpp.o"
+},
+{
+  "directory": "/home/z0tedd/Documents/projects/univer_practice/task2/build",
+  "command": "/usr/bin/c++  -isystem /home/z0tedd/.local/share/vcpkg/installed/x64-linux/include -std=gnu++17 -o CMakeFiles/hello-server.dir/src/HelloController.cpp.o -c /home/z0tedd/Documents/projects/univer_practice/task2/src/HelloController.cpp",
+  "file": "/home/z0tedd/Documents/projects/univer_practice/task2/src/HelloController.cpp",
+  "output": "CMakeFiles/hello-server.dir/src/HelloController.cpp.o"
+}
+]
