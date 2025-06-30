@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: my-container
-          image: server:latest
+          image: ghcr.io/z0tedd/cpp-endpoint-example:latest
           imagePullPolicy: IfNotPresent # Or Always, Never, etc.
           ports:
             - containerPort: 8848
