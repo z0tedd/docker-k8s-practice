@@ -1,0 +1,76 @@
+name: CI/CD for cpp-endpoint
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+  Lint-build-test:
+    name: Lint, build, test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - uses: lukka/get-cmake@latest
+
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        # with:
+        #   runVcpkgInstall: true
+
+      - name: Configure Project
+        env:
+          VCPKG_ROOT: ${{ github.workspace }}/vcpkg
+        run: |
+          mkdir -p build && cd build
+          cmake .. \
+            -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
+            -DENABLE_COVERAGE=ON
+
+      - name: Run Clang-Tidy Linter
+        run: |
+          cd build
+          make clean
+          run-clang-tidy -checks='-*,bugprone-string-constructor,readability-function-size'
+
+      - name: Build
+        run: |
+          cd build
+          make
+
+      - name: Test Project
+        uses: threeal/ctest-action@v1.1.0
+
+      - name: Check Test Coverage
+        uses: threeal/gcovr-action@v1.1.0
+        with:
+          html-out: coverage.html
+
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.html
+
+  Deploy-To-Github-Registry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and push the image
+        run: |
+          docker login --username z0tedd --password ${{ secrets.GH_PAT }} ghcr.io 
+          docker build . --tag ghcr.io/z0tedd/cpp-endpoint-example:latest
+          docker push ghcr.io/z0tedd/cpp-endpoint-example:latest
